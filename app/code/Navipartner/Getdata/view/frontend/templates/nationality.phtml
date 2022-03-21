@@ -1,0 +1,40 @@
+<h1><?php echo $block->escapeHtml($block->getWelcomeText()) ?></h1>
+
+<p>Country</p>
+<p><?php $countryBlock = $block->getLayout()->createBlock('Magento\Directory\Block\Data');?>
+<?= $countryBlock->getCountryHtmlSelect($defValue = null, $name = 'country_id', $id = 'country', $title = 'Country');?></p>
+
+<button>Geta random user data based on country selected</button>
+<div id="name"></div></br>
+<div id="email"></div></br>
+<div id="age"></div></br>
+<div id="phone"></div></br>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+
+$(document).ready(function(){
+  $("button").click(function(){
+  	$("#name").empty();
+    $("#email").empty();
+    $("#age").empty();
+    $("#phone").empty();
+  	var x = $('select option').filter(':selected').val().toLowerCase();
+  	console.log(x);
+   $.ajax({
+	  url: 'https://randomuser.me/api/?nat=' + x,
+	  dataType: 'json',
+	  success: function(data) {
+	    $("#name").append("Name: " + data['results'][0]['name']['first']);
+	    $("#email").append("Email: " + data['results'][0]['email']);
+	    $("#age").append("Age: " + data['results'][0]['dob']['age']);
+	    $("#phone").append("Phone: " + data['results'][0]['phone']);
+	  }
+	});
+
+
+  });
+});
+</script>
+
